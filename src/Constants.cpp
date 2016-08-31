@@ -138,3 +138,21 @@ R_ConstantPointerNull_get(SEXP r_pointerType)
     ans = llvm::ConstantPointerNull::get(type);
     return(R_createRef(ans, "ConstantPointerNull"));
 }
+
+extern "C"
+SEXP
+R_Constant_cast(SEXP r_var)
+{
+    llvm::Value *var = GET_REF(r_var, Value);
+
+	int ans = 0;
+
+	ans = llvm::Constant::classof(var);
+
+	if (ans) {
+		return(R_createRef(var, "Constant"));
+	} else {
+    		return(ScalarLogical(FALSE));
+	}
+}
+

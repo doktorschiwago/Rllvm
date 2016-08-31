@@ -111,3 +111,19 @@ function(type)
 {
   .Call("R_ConstantPointerNull_get", type)
 }
+
+constantCast =
+function(var)
+{
+
+
+    if(!is(var, "Value"))
+        stop("Need a Value")
+
+    ans=.Call("R_Constant_cast", var)
+    
+    return(ans)
+
+}
+
+
