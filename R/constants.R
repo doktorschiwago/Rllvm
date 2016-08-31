@@ -127,3 +127,18 @@ function(var)
 }
 
 
+constantInstructionCast =
+function(var)
+{
+
+
+    if(!is(var, "Constant"))
+        stop("Need a Constant")
+
+    ans=.Call("R_ConstantInstruction_cast", var)
+
+    if (is.logical(ans)) return(ans)
+    
+    return(coerceGenericInstruction(ans))
+
+}

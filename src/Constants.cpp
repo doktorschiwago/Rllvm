@@ -156,3 +156,16 @@ R_Constant_cast(SEXP r_var)
 	}
 }
 
+
+extern "C"
+SEXP
+R_ConstantInstruction_cast(SEXP r_var)
+{
+    llvm::Value *var = GET_REF(r_var, Constant);
+
+	if (llvm::ConstantExpr* ans2 = llvm::dyn_cast<llvm::ConstantExpr>(var)) {
+		return(R_createRef(ans2->getAsInstruction(), "Instruction"));
+	}
+
+	return(ScalarLogical(FALSE));
+}

@@ -499,6 +499,7 @@ export(setIncomingBlock, addIncoming, getBasicBlockIndex, getIncomingValueForBlo
 export(isLittleEndian, getPointerSize, getStackAlignment, getPointerTypeSize, getTypeAllocSize, getABITypeAlignment)
 
 
+export(constantInstructionCast)
 
 # These function names are likely to change.
 export(DIBuilder, finalizeDIBuilder, newDebugCompileUnit, newDebugFunction, newDebugLocalVariable, newDebugBasicType, newDebugFunctionType, newDebugPointerType, debugSetLocation)
