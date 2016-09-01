@@ -101,3 +101,12 @@ function()
 createPartiallyInlineLibCallsPass =
 function()
    .Call('R_createPartiallyInlineLibCallsPass')
+
+createAlwaysInlinerPass =
+function()
+   .Call('R_createAlwaysInlinerPass')
+
+
+createStripDeadDebugInfoPass =
+function()
+   .Call('R_createStripDeadDebugInfoPass')

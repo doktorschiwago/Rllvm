@@ -462,7 +462,9 @@ export( createAggressiveDCEPass,
   createGlobalMergePass,
   createLoopDeletionPass,
   createCorrelatedValuePropagationPass,
-  createPartiallyInlineLibCallsPass )
+  createPartiallyInlineLibCallsPass,
+  createAlwaysInlinerPass,
+  createStripDeadDebugInfoPass)
 
 export(shutdown)
 
