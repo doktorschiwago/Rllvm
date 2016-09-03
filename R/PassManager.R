@@ -30,6 +30,12 @@ setMethod("run", c("LegacyPassManager"),
              .Call("R_PassManager_run", .x, mod)
            })
 
+setMethod("run", c("FunctionPassManager"),
+           function(.x, mod, ...) {
+             .Call("R_optimizeFunction", as(mod,"Function"), .x)
+           })
+
+
 
 if(FALSE) {
 createDeadStoreEliminationPass =
