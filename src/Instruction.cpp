@@ -226,7 +226,11 @@ R_Instruction_getMetadata(SEXP r_inst, SEXP r_kind)
         node = inst->getMetadata(llvm::StringRef(CHAR(STRING_ELT(r_kind, 0))));
     else
         node = inst->getMetadata( (unsigned) INTEGER(r_kind)[0]);
-    return(R_createRef(node, "MDNode"));
+    if (node) {
+        return(R_createRef(node, "MDNode"));
+    } else {
+        return(R_NilValue);
+    }
 }
 
 extern "C"
