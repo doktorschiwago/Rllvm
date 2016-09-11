@@ -38,7 +38,68 @@ function(obj)
 # This functions return instructions that depend on the value
 getAllValueUsers = 
 function(obj) {
-    coerceGenericInstruction(.Call("R_Value_getAllUsers", as(obj, "Value")), throwError=FALSE)
+    uses=coerceGenericInstruction(.Call("R_Value_getAllUsers", as(obj, "Value")), throwError=FALSE)
+
+    if (length(uses)<1) return(uses)
+
+    if (length(uses)==1) {
+        attr(uses[[1]], "llvmDominates")=TRUE
+        return(uses)
+    }
+
+    for (i in 1:length(uses)) {
+            attr(uses[[i]], "llvmDominates")=FALSE
+    }
+
+    #check if obj is a function
+
+    bb=getParent(obj)
+
+    if (! is(bb, "BasicBlock")) return(uses)
+
+    func=getParent(bb)
+
+    if (! is(func, "Function")) return(uses)
+
+    #order uses by dominance
+
+    #-browser()
+
+    index=1
+
+    while (TRUE) {
+
+        change=FALSE
+
+        for (i in index:(length(uses))) {
+            dominatesAll=TRUE
+            for (j in index:length(uses)) {
+                if (i==j) next
+                if (! dominates(func, uses[[i]], uses[[j]])) {
+                    dominatesAll=FALSE
+                    break
+                }
+            }
+
+            if (dominatesAll) {
+                tmp=uses[[index]]
+                uses[[index]]=uses[[i]]
+                uses[[i]]=tmp
+                attr(uses[[index]], "llvmDominates")=TRUE
+                index=index+1   
+                change=TRUE
+                break       
+            }
+        }
+
+
+        if (! change) break
+        if (index==length(uses)) {
+            attr(uses[[index]], "llvmDominates")=TRUE
+            break
+        }
+    }
+    return(uses)
 }
 
 
