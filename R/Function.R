@@ -353,3 +353,19 @@ function(call, func)
 {
 	.Call("R_CallInst_setCalledFunction", call, func)
 }
+
+setGeneric("dominates",
+           function(obj,ins1, ins2, ...)
+             standarGeneric("dominates"))
+
+setMethod("dominates", c("Function", "Instruction", "Instruction"), 
+           function(obj, ins1, ins2, ...)
+             .Call("R_Function_dominates", obj, ins1, ins2))
+
+setGeneric("postdominates",
+           function(obj,ins1, ins2, ...)
+             standarGeneric("postdominates"))
+
+setMethod("postdominates", c("Function", "BasicBlock", "BasicBlock"), 
+           function(obj, ins1, ins2, ...)
+             .Call("R_Function_postdominates", obj, ins1, ins2))

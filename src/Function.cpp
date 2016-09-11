@@ -463,3 +463,54 @@ R_Function_clone(SEXP r_func)
 
     return(R_createRef(duplicateFunction, "Function"));
 }
+
+extern "C"
+SEXP
+R_Function_dominates(SEXP r_func, SEXP r_instruction1, SEXP r_instruction2)
+{
+    llvm::Function *func = GET_REF(r_func, Function);    
+
+    llvm::legacy::FunctionPassManager mgr(func->getParent());
+
+    llvm::DominatorTreeWrapperPass* DTW=new llvm::DominatorTreeWrapperPass();
+
+    mgr.add(DTW);
+
+    mgr.run(*func);
+
+    DTW->runOnFunction(*func);
+
+    const llvm::DominatorTree &DT=DTW->getDomTree();
+
+    llvm::Instruction *ins1 = GET_REF(r_instruction1, Instruction);
+    llvm::Instruction *ins2 = GET_REF(r_instruction2, Instruction);
+
+    DT.verifyDomTree();
+
+    bool res=DT.dominates(ins1, ins2);
+
+
+    return(ScalarLogical(res));
+}
+
+
+extern "C"
+SEXP
+R_Function_postdominates(SEXP r_func, SEXP r_block1, SEXP r_block2)
+{
+    llvm::Function *func = GET_REF(r_func, Function);
+
+    llvm::PostDominatorTree* DT=new llvm::PostDominatorTree();
+
+
+    DT->runOnFunction(*func);
+
+
+    llvm::BasicBlock *block1 = GET_REF(r_block1, BasicBlock);
+    llvm::BasicBlock *block2 = GET_REF(r_block2, BasicBlock);
+
+    bool res=DT->dominates(block1, block2);
+
+
+    return(ScalarLogical(res));
+}
