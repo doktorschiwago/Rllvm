@@ -53,13 +53,17 @@ function(obj) {
 
     #check if obj is a function
 
-    bb=getParent(obj)
+    if (is(obj, "Argument")) {
+        func=getParent(obj)
+    } else {
+        bb=getParent(obj)
 
-    if (! is(bb, "BasicBlock")) return(uses)
+        if (! is(bb, "BasicBlock")) return(uses)
 
-    func=getParent(bb)
+        func=getParent(bb)
 
-    if (! is(func, "Function")) return(uses)
+        if (! is(func, "Function")) return(uses)
+    }
 
     #order uses by dominance
 
