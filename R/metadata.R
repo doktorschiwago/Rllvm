@@ -4,9 +4,6 @@ function(str, ctx = getGlobalContext())
   .Call("R_MDString_get", as(ctx, "LLVMContext"), as.character(str))
 }
 
-setGeneric("setMetadata",
-           function(x, id, values, ...)
-             standardGeneric("setMetadata"))
 
 setMethod("setMetadata",
           c("Module", "character"),

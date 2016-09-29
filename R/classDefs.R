@@ -301,3 +301,7 @@ setMethod("onlyReadsMemory", "Argument",
 setGeneric("getMetadata",
            function(obj, id, ...)
               standardGeneric("getMetadata"))
+
+setGeneric("setMetadata",
+           function(x, id, values, ...)
+             standardGeneric("setMetadata"))
