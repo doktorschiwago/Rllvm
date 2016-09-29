@@ -162,6 +162,24 @@ R_Instruction_getOperand(SEXP r_inst, SEXP r_i)
         return(R_createRef(el, "Value"));
 }
 
+extern "C"
+SEXP
+R_Instruction_setOperand(SEXP r_inst, SEXP r_i, SEXP r_op)
+{
+	llvm::Instruction *inst = GET_REF(r_inst, Instruction);
+	llvm::Value *op = GET_REF(r_op, Value);
+
+	if(!inst) return(R_NilValue);
+        llvm::Value *el;
+        unsigned i = INTEGER(r_i)[0] - 1;
+        if(i >= inst->getNumOperands()) {
+            PROBLEM "index of operand is incorrect"
+                ERROR;
+        }
+
+        inst->setOperand(i, op);
+        return(ScalarLogical(TRUE));
+}
 
 
 

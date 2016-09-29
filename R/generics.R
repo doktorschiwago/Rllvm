@@ -57,3 +57,7 @@ setGeneric("getOperands",
 setGeneric("getOperand",
            function(instruction, index)
              standardGeneric("getOperand"))
+
+setGeneric("setOperand",
+           function(instruction, index, value)
+             standardGeneric("setOperand"))

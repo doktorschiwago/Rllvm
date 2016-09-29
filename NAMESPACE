@@ -544,5 +544,6 @@ export(getPredecessors)
 export(cloneFunction, setCalledFunction)
 
 export(getAllValueUsers)
+export(setOperand)
 
 
