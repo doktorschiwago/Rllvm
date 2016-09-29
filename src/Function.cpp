@@ -422,7 +422,11 @@ R_Function_getMetadata(SEXP r_func, SEXP r_kind)
     else
         node = func->getMetadata((unsigned) INTEGER(r_kind)[0]);
 
-    return(R_createRef(node, "MDNode"));
+    if (node) {
+        return(R_createRef(node, "MDNode"));
+    } else {
+        return(R_NilValue);
+    }
 }
 
 extern "C"
