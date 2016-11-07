@@ -330,7 +330,7 @@ export(simpleFunction)
 export(addCases)
 
 export(createCast)
-export(setFuncAttributes, getFuncAttributes)
+export(setFuncAttributes, getFuncAttributes, removeFuncAttributes)
 
 
 export(getTargetTriple, setTargetTriple)

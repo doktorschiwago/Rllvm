@@ -247,6 +247,13 @@ function(func, ..., .attrs = list(...))
    .Call("R_Function_setAttributes", func, vals)
 }
 
+removeFuncAttributes =
+function(func, ..., .attrs = list(...))
+{
+   vals = matchFuncAttributes(unlist(.attrs))
+   .Call("R_Function_removeAttributes", func, vals)
+}
+
 
 
 # See inst/TU/enums.R

@@ -374,6 +374,18 @@ R_Function_setAttributes(SEXP r_func, SEXP r_vals)
 
 extern "C"
 SEXP
+R_Function_removeAttributes(SEXP r_func, SEXP r_vals)
+{
+     llvm::Function *func = GET_REF(r_func, Function);
+     for(int i = 0; i < Rf_length(r_vals); i++) {
+         func->removeFnAttr( (AttrKind)  INTEGER(r_vals)[i]);
+     }
+     return(ScalarLogical(TRUE));
+
+}
+
+extern "C"
+SEXP
 R_Function_getAttributes(SEXP r_func)
 {
      llvm::Function *func = GET_REF(r_func, Function);
