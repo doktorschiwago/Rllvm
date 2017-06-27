@@ -5,6 +5,11 @@ function(id = Sys.time(), context = NULL)
    .Call("R_new_Module", as.character(id), context)
 }
 
+deleteModule=
+function(mod)
+{
+   .Call("R_Module_delete", as(mod, "Module"))
+}
 
 getGlobalContext =
 function()

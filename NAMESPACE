@@ -547,5 +547,6 @@ export(getAllValueUsers)
 export(getAllValueUsersTree)
 export(setOperand)
 
+export(deleteModule)
 export(getSubprogram)
 

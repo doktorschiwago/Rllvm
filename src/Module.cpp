@@ -34,6 +34,17 @@ R_new_Module(SEXP r_name, SEXP r_context)
     return(R_createRef(ans, "Module"));
 }
 
+
+extern "C"
+SEXP
+R_Module_delete(SEXP r_mod)
+{
+    llvm::Module *mod=GET_REF(r_mod, Module);
+    delete mod;
+
+    return(R_NilValue);
+}
+
 //#define GET_TYPE(x)  (llvm::Type *) R_ExternalPtrAddr((x))
 
 
