@@ -185,13 +185,14 @@ R_MDNode_getOperands(SEXP r_node)
     PROTECT(ans = NEW_LIST(numEls));
     PROTECT(names = NEW_CHARACTER(numEls));
     for(unsigned int i = 0; i < numEls; i++) {
-        llvm::MD_TYPE *el = node->getOperand(i);
-        SET_VECTOR_ELT(ans, i, R_createRef(el, "Metadata"));
-#if LLVM_VERSION == 3 && LLVM_MINOR_VERSION < 6
-        llvm::StringRef str;
-	str = el->getName();
-        SET_STRING_ELT(names, i, str.data() ? mkChar(str.data()) : R_NaString);
-#endif
+        llvm::Metadata *el = node->getOperand(i);
+        if (el) {
+            SET_VECTOR_ELT(ans, i, R_createRef(el, "Metadata"));
+        
+            llvm::StringRef str;
+	        /*str = el->getName();
+            SET_STRING_ELT(names, i, str.data() ? mkChar(str.data()) : R_NaString);*/
+        }
     }
     SET_NAMES(ans, names);
     UNPROTECT(2);
