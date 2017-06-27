@@ -211,3 +211,30 @@ R_Metadata_print(SEXP r_ref)
     metadata->print(OS);
     return(ScalarString(mkChar( OS.str().c_str())));
 }
+
+extern "C"
+SEXP
+extern "C"
+SEXP
+R_NamedMDNode_dump(SEXP r_namedMDNode)
+{
+    llvm::NamedMDNode *val = GET_REF(r_namedMDNode, NamedMDNode);
+    std::string str;
+    llvm::raw_string_ostream OS(str);
+
+    val->print(OS);
+    return(ScalarString(mkChar( OS.str().c_str())));
+}
+
+extern "C"
+SEXP
+R_Metadata_dump(SEXP r_metadata)
+{
+    llvm::Metadata *val = GET_REF(r_metadata, Metadata);
+    std::string str;
+    llvm::raw_string_ostream OS(str);
+
+    val->print(OS);
+    return(ScalarString(mkChar( OS.str().c_str())));
+}
+

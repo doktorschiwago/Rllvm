@@ -257,6 +257,13 @@ setMethod("llvmDump", "Type",
            function(x, ...) 
                .Call("R_Type_dump", x))
 
+setMethod("llvmDump", "NamedMDNode",
+           function(x, ...) 
+               .Call("R_NamedMDNode_dump", x))
+
+setMethod("llvmDump", "Metadata",
+           function(x, ...) 
+               .Call("R_Metadata_dump", x))
 
 setGeneric("getValue", function(x, ...) standardGeneric("getValue"))
 
