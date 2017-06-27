@@ -238,3 +238,11 @@ R_Metadata_dump(SEXP r_metadata)
     return(ScalarString(mkChar( OS.str().c_str())));
 }
 
+
+extern "C"
+SEXP
+R_Metadata_getMetadataID(SEXP r_ref)
+{
+    llvm::MD_TYPE *metadata = GET_REF(r_ref, MD_TYPE);
+    return(ScalarInteger(metadata->getMetadataID()));
+}

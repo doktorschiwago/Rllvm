@@ -63,11 +63,11 @@ setMethod("makeMetadataValue",
 
 setMethod("getOperands", "NamedMDNode",
            function(x, ...)
-            .Call("R_NamedMDNode_getOperands", x))
+            coerceGenericMetadata(.Call("R_NamedMDNode_getOperands", x)))
 
 setMethod("getOperands", "MDNode",
            function(x, ...)
-            .Call("R_MDNode_getOperands", x))
+            coerceGenericMetadata(.Call("R_MDNode_getOperands", x)))
 
 
 setMethod("getName", "NamedMDNode",
@@ -130,3 +130,52 @@ setMethod("getParent", "NamedMDNode",
               .Call("R_NamedMDNode_getParent", x)
           })
 
+getMetadataKind = function(md) {
+    return(.Call("R_Metadata_getMetadataID", as(md, "Metadata")))
+}
+
+MetadataKindClass=list(
+    #MDTupleKind, 0
+"0" = "MDNode",
+#DILocationKind, 1
+#GenericDINodeKind, 2
+#DISubrangeKind, 3
+#DIEnumeratorKind, 4
+#DIBasicTypeKind, 5
+"5" = "DIType",
+#DIDerivedTypeKind, 6
+"6" = "DIType",
+#DICompositeTypeKind, 7
+#DISubroutineTypeKind, 8
+"8" = "DISubroutineType",
+#DIFileKind, 9
+#DICompileUnitKind, 10
+"10" = "DICompileUnit",
+#DISubprogramKind, 11
+"11" = "DISubprogram"
+#DILexicalBlockKind, 12
+#DILexicalBlockFileKind, 13
+#DINamespaceKind, 14
+#DIModuleKind, 15
+#DITemplateTypeParameterKind, 16
+#DITemplateValueParameterKind, 17
+#DIGlobalVariableKind, 18
+#DILocalVariableKind, 19
+)
+
+coerceGenericMetadata =
+function(ins)
+{
+  	if(is.list(ins))
+    	return(lapply(ins, coerceGenericMetadata))
+
+    if (is.null(ins)) return(ins)
+
+  	type = getMetadataKind(ins)
+  	k = MetadataKindClass[[ as.character(type) ]]
+  	if(is.null(k)) {
+		return(ins)
+  	}
+  
+  	as(ins, k)
+}
