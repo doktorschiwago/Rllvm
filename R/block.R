@@ -90,6 +90,9 @@ function(ins, throwError=TRUE)
 			constant=constantCast(ins)
 			if (! is.logical(constant)) return(constant)
 
+			argument=argumentCast(ins)
+			if (! is.logical(argument)) return(argument)
+
 			return(ins)
 		}
   	}

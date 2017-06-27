@@ -535,6 +535,24 @@ R_Function_postdominates(SEXP r_func, SEXP r_block1, SEXP r_block2)
 
 extern "C"
 SEXP
+R_Argument_cast(SEXP r_var)
+{
+    llvm::Value *var = GET_REF(r_var, Value);
+
+	int ans = 0;
+
+	ans = llvm::Argument::classof(var);
+
+	if (ans) {
+        
+		return(R_createRef(var, "Argument"));
+	} else {
+    		return(ScalarLogical(FALSE));
+	}
+}
+
+extern "C"
+SEXP
 R_Function_getSubprogram(SEXP r_func)
 {
     llvm::Function *func = GET_REF(r_func, Function);

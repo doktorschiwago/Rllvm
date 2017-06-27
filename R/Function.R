@@ -379,6 +379,20 @@ setMethod("postdominates", c("Function", "BasicBlock", "BasicBlock"),
 
 
 
+argumentCast =
+function(var)
+{
+
+
+    if(!is(var, "Value"))
+        stop("Need a Value")
+
+    ans=.Call("R_Argument_cast", var)
+    
+    return(ans)
+
+}
+
 getSubprogram = function(func) {
     .Call("R_Function_getSubprogram", as(func, "Function"))
 }
