@@ -184,7 +184,7 @@ setMethod("getReturnType",
 
 setGeneric("getCalledFunction",
            function(obj, ...)
-             standarGeneric("getCalledFunction"))
+             standardGeneric("getCalledFunction"))
 
 setMethod("getCalledFunction", "CallInst",
            function(obj, ...)
@@ -363,7 +363,7 @@ function(call, func)
 
 setGeneric("dominates",
            function(obj,ins1, ins2, ...)
-             standarGeneric("dominates"))
+             standardGeneric("dominates"))
 
 setMethod("dominates", c("Function", "Instruction", "Instruction"), 
            function(obj, ins1, ins2, ...)
@@ -371,7 +371,7 @@ setMethod("dominates", c("Function", "Instruction", "Instruction"),
 
 setGeneric("postdominates",
            function(obj,ins1, ins2, ...)
-             standarGeneric("postdominates"))
+             standardGeneric("postdominates"))
 
 setMethod("postdominates", c("Function", "BasicBlock", "BasicBlock"), 
            function(obj, ins1, ins2, ...)
