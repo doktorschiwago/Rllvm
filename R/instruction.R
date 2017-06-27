@@ -104,3 +104,12 @@ setMethod("getMetadata", c("Instruction", "character"),
 setMethod("getMetadata", c("Instruction", "numeric"),
            function(obj, id, ...)
               .Call("R_Instruction_getMetadata", obj, as.integer(id)))
+
+setMethod('setMetadata', c('Instruction', "character"),
+                  function(x, id, values, ...) {
+                    mdstring=.Call("R_MDString_get", getGlobalContext(), values, PACKAGE = 'Rllvm')
+		        	mdnode=.Call("R_MDNode_get2", getGlobalContext(), mdstring, PACKAGE = 'Rllvm')
+                     .Call('R_Instruction_setMetadata', x, as.character(id), mdnode, PACKAGE = 'Rllvm')
+		}
+)
+

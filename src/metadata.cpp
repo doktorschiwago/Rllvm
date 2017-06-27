@@ -215,6 +215,14 @@ R_Metadata_print(SEXP r_ref)
 
 extern "C"
 SEXP
+R_MDNode_get2(SEXP r_context, SEXP r_val)
+{
+
+    llvm::LLVMContext *context = GET_REF(r_context, LLVMContext);
+    llvm::MDNode *ans = llvm::MDNode::get(*context, GET_REF(r_val, MDString));
+    return(R_createRef(ans, "MDNode"));
+}
+
 extern "C"
 SEXP
 R_NamedMDNode_dump(SEXP r_namedMDNode)

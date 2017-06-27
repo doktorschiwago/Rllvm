@@ -378,6 +378,13 @@ setMethod("postdominates", c("Function", "BasicBlock", "BasicBlock"),
              .Call("R_Function_postdominates", obj, ins1, ins2))
 
 
+setMethod('setMetadata', c('Function', "character"),
+                  function(x, id, values, ...) {
+                    mdstring=.Call("R_MDString_get", getGlobalContext(), values, PACKAGE = 'Rllvm')
+		        	mdnode=.Call("R_MDNode_get2", getGlobalContext(), mdstring, PACKAGE = 'Rllvm')
+                     .Call('R_Function_setMetadata', x, as.character(id), mdnode, PACKAGE = 'Rllvm')
+		}
+)
 
 argumentCast =
 function(var)
