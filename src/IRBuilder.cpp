@@ -218,8 +218,8 @@ extern "C"
 SEXP
 R_BranchInst_getNumSuccessors(SEXP r_branch)
 {
-    llvm::BranchInst *branch;
-    branch = GET_REF(r_branch, BranchInst);
+    llvm::TerminatorInst *branch;
+    branch = GET_REF(r_branch, TerminatorInst);
     return(ScalarInteger(branch->getNumSuccessors()));
 }
 
@@ -236,8 +236,8 @@ extern "C"
 SEXP
 R_BranchInst_getSuccessor(SEXP r_branch, SEXP r_i)
 {
-    llvm::BranchInst *branch;
-    branch = GET_REF(r_branch, BranchInst);
+    llvm::TerminatorInst *branch;
+    branch = GET_REF(r_branch, TerminatorInst);
     if( (unsigned) INTEGER(r_i)[0] >= branch->getNumSuccessors()) {
 	PROBLEM "asking to retrieve a BranchInst successor beyond the actual number %d", branch->getNumSuccessors()
 	    ERROR;

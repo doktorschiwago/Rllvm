@@ -10,7 +10,7 @@ function(x)
   if(isa(x, "ReturnInst"))
      return(0L)
      
-  .Call("R_BranchInst_getNumSuccessors", as(x, "BranchInst"))
+  .Call("R_BranchInst_getNumSuccessors", as(x, "TerminatorInst"))
 }
 
 getSuccessor =
@@ -19,7 +19,7 @@ function(x, i = 1L)
   if(isa(x, "ReturnInst"))
     return(NULL)
      
-  .Call("R_BranchInst_getSuccessor", as(x, "BranchInst"), as.integer(i - 1L))
+  .Call("R_BranchInst_getSuccessor", as(x, "TerminatorInst"), as.integer(i - 1L))
 }
 
 getSuccessors =
