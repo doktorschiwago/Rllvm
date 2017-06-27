@@ -546,6 +546,8 @@ export(cloneFunction, setCalledFunction)
 export(getAllValueUsers)
 export(getAllValueUsersTree)
 export(setOperand)
+export(dominates)
+export(postdominates)
 
 export(deleteModule)
 export(getSubprogram)
