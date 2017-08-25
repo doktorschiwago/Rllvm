@@ -530,10 +530,14 @@ export(getFunctionReturnType)
 
 
 
+
 export(getDataLayoutString)
 exportMethods(getDataLayoutString)
 
 export(getPredecessor, getSuccessor)
 
 export(addGlobalMapping)
+
+
+export(getPredecessors)
 

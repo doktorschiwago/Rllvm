@@ -169,8 +169,19 @@ function(x, single = TRUE)
   .Call("R_BasicBlock_getPredecessor", as(x, "BasicBlock"), as.logical(single)) 
 }
 
+
 getSuccessor =
 function(x, single = TRUE)
 {
   .Call("R_BasicBlock_getSuccessor", as(x, "BasicBlock"), as.logical(single)) 
 }
+
+getPredecessors =
+function(x)
+{
+  if (is.null(x)) stop("NULL as argument!")
+
+  .Call("R_BasicBlock_getPredecessors", as(x, "BasicBlock")) 
+
+}
+
