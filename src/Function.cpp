@@ -439,4 +439,27 @@ R_Function_setMetadata(SEXP r_func, SEXP r_kind, SEXP r_node)
     return(R_NilValue);
 }
 
+// class is used by Function_clone
+class IdentityMapper: public llvm::ValueToValueMapTy
+{
+public:
+    llvm::Type *remapType(llvm::Type *SrcTy)
+    {
+        return SrcTy;
+    }
+};
 
+extern "C"
+SEXP
+R_Function_clone(SEXP r_func)
+{
+    llvm::Function *func = GET_REF(r_func, Function);
+
+	IdentityMapper VMap;
+
+  	llvm::Function* duplicateFunction = llvm::CloneFunction(func, VMap,
+                                              /*ModuleLevelChanges=*/false);
+  	func->getParent()->getFunctionList().push_back(duplicateFunction);
+
+    return(R_createRef(duplicateFunction, "Function"));
+}

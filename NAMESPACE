@@ -541,3 +541,5 @@ export(addGlobalMapping)
 
 export(getPredecessors)
 
+export(cloneFunction, setCalledFunction)
+
