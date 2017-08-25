@@ -302,3 +302,24 @@ R_ExecutionEngine_RegisterJITEventListener(SEXP r_ee, SEXP r_listener)
 }
 
 
+extern "C"
+SEXP
+R_ExecutionEngine_addGlobalMapping(SEXP r_execEngine, SEXP r_var, SEXP r_addr)
+{
+    llvm::ExecutionEngine *ee = GET_REF(r_execEngine, ExecutionEngine);
+    llvm::GlobalValue *var = GET_REF(r_var, GlobalValue);
+
+	const char *addr=CHAR(STRING_ELT(r_addr, 0));
+
+	long addr2;
+	int res=sscanf(addr, "%lu",&addr2);
+
+	if (res==0) return(ScalarLogical(FALSE));
+
+	void *addr3=NULL;
+	addr3 = (void*) addr2;
+	
+    ee->addGlobalMapping(var, addr3);
+    
+    return(ScalarLogical(TRUE));
+}

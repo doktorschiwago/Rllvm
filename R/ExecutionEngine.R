@@ -198,3 +198,9 @@ function(engine)
 setClass("RFunctionJITEventListener", contains = "RC++Reference")
 setClass("ObjectFile", contains = "RC++Reference")
 setClass("LoadObjectInfo", contains = "RC++Reference")
+
+addGlobalMapping =
+function(execEngine, var, addr)
+{
+   .Call("R_ExecutionEngine_addGlobalMapping", execEngine, var, addr)
+}
