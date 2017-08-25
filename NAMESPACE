@@ -544,6 +544,8 @@ export(getPredecessors)
 export(cloneFunction, setCalledFunction)
 
 export(getAllValueUsers)
+export(getAllValueUsersTree)
 export(setOperand)
 
+export(getSubprogram)
 

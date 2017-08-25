@@ -376,3 +376,10 @@ setGeneric("postdominates",
 setMethod("postdominates", c("Function", "BasicBlock", "BasicBlock"), 
            function(obj, ins1, ins2, ...)
              .Call("R_Function_postdominates", obj, ins1, ins2))
+
+
+
+getSubprogram = function(func) {
+    .Call("R_Function_getSubprogram", as(func, "Function"))
+}
+

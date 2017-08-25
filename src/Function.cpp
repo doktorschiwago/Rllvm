@@ -530,3 +530,21 @@ R_Function_postdominates(SEXP r_func, SEXP r_block1, SEXP r_block2)
 
     return(ScalarLogical(res));
 }
+
+
+
+extern "C"
+SEXP
+R_Function_getSubprogram(SEXP r_func)
+{
+    llvm::Function *func = GET_REF(r_func, Function);
+    llvm::DISubprogram *node;
+    node = func->getSubprogram();
+
+    if (node) {
+        return(R_createRef(node, "DISubprogram"));
+    } else {
+        return(R_NilValue);
+    }
+}
+
