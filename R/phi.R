@@ -27,3 +27,10 @@ function(phi)
 {
   .Call("R_PHINode_hasConstantValue", as(phi, "PHINode"))
 }
+
+getIncomingBlock = 
+function(phiNode, index) 
+{
+  .Call("R_PHINode_getIncomingBlock", as(phiNode, "PHINode"), as.integer(index))
+}
+

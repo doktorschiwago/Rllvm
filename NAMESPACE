@@ -494,7 +494,7 @@ exportMethods("[[")
 export(getLinkage)
 
 
-export(setIncomingBlock, addIncoming, getBasicBlockIndex, getIncomingValueForBlock, hasConstantValue)
+export(setIncomingBlock, addIncoming, getBasicBlockIndex, getIncomingValueForBlock, hasConstantValue, getIncomingBlock)
 
 
 # DataLayout

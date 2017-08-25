@@ -1164,6 +1164,7 @@ R_PHINode_hasConstantValue(SEXP r_phi)
 }
 
 
+
 extern "C"
 SEXP
 R_createFwdRef_for_phi(SEXP r_type)
@@ -1172,3 +1173,18 @@ R_createFwdRef_for_phi(SEXP r_type)
     llvm::Argument *arg = new llvm::Argument(type);
     return(R_createRef(arg, "Argument"));
 }
+
+extern "C"
+SEXP
+R_PHINode_getIncomingBlock(SEXP r_phiNode, SEXP r_index)
+{
+    llvm::PHINode* phiNode;
+    phiNode = GET_REF(r_phiNode, PHINode);
+    
+    llvm::BasicBlock *block;
+    block = phiNode->getIncomingBlock(INTEGER(r_index)[0]);
+
+    return(R_createRef(block, "BasicBlock"));
+
+}
+
