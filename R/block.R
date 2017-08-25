@@ -78,7 +78,7 @@ coerceGenericInstruction =
 function(ins, throwError=TRUE)
 {
   	if(is.list(ins))
-    	return(lapply(ins, coerceGenericInstruction))
+    	return(lapply(ins, coerceGenericInstruction, throwError))
 
   	type = getOpcode(ins)
   	k = InstructionOpcodeClass[ names(type) ]

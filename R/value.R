@@ -34,3 +34,11 @@ function(obj)
     .Call("R_Value_getAllUses", as(obj, "Value"))
 
 
+# Sorry, I dont get the difference between Use and User and how all this adds up
+# This functions return instructions that depend on the value
+getAllValueUsers = 
+function(obj) {
+    coerceGenericInstruction(.Call("R_Value_getAllUsers", as(obj, "Value")), throwError=FALSE)
+}
+
+

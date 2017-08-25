@@ -543,3 +543,6 @@ export(getPredecessors)
 
 export(cloneFunction, setCalledFunction)
 
+export(getAllValueUsers)
+
+

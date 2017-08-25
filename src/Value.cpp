@@ -122,3 +122,27 @@ R_Value_print(SEXP r_value)
     val->print(OS);
     return(ScalarString(mkChar( OS.str().c_str())));
 }
+
+extern "C"
+SEXP
+R_Value_getAllUsers(SEXP r_val)
+{
+    llvm::Value *val = GET_REF(r_val, Value);
+    int ctr = 0;
+    for(llvm::User *U : val->users()) {
+		ctr++;
+	}
+
+    SEXP ans;
+    PROTECT(ans = NEW_LIST(ctr));
+	ctr=0;
+    for(llvm::User *U : val->users()) {
+        SET_VECTOR_ELT(ans, ctr, R_createRef(U, "User"));
+		ctr++;
+    }
+
+    
+    UNPROTECT(1);
+    return(ans);
+}
+
