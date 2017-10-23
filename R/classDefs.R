@@ -71,7 +71,7 @@ setClass("LoadInst", contains = "Instruction")
 setClass("GetElementPtrInst", contains = "Instruction")
 setClass("PtrDiff", contains = "Value")  # was Instruction, but looks incorrect.
 
-setClass("SwitchInst", contains = "Instruction")
+setClass("SwitchInst", contains = "TerminatorInst")
 
 setClass('IndirectBrInst', contains = 'TerminatorInst')
 setClass('ResumeInst', contains = 'TerminatorInst')
