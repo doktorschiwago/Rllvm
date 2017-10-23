@@ -56,6 +56,8 @@
 #include <llvm/Assembly/PrintModulePass.h>
 #endif
 
+#include <llvm/IR/DebugInfo.h>
+
 
 #include <Rdefines.h>
 
