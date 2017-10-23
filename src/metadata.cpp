@@ -208,7 +208,7 @@ R_Metadata_print(SEXP r_ref)
 {
     std::string str;
     llvm::raw_string_ostream OS(str);
-    llvm::MD_TYPE *metadata = GET_REF(r_ref, MD_TYPE);
+    llvm::Metadata *metadata = GET_REF(r_ref, Metadata);
     metadata->print(OS);
     return(ScalarString(mkChar( OS.str().c_str())));
 }
@@ -252,6 +252,7 @@ extern "C"
 SEXP
 R_Metadata_getMetadataID(SEXP r_ref)
 {
-    llvm::MD_TYPE *metadata = GET_REF(r_ref, MD_TYPE);
+    llvm::Metadata *metadata = GET_REF(r_ref, Metadata);
     return(ScalarInteger(metadata->getMetadataID()));
 }
+
