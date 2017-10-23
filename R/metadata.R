@@ -134,48 +134,33 @@ getMetadataKind = function(md) {
     return(.Call("R_Metadata_getMetadataID", as(md, "Metadata")))
 }
 
-MetadataKindClass=list(
-    #MDTupleKind, 0
-"0" = "MDNode",
-#DILocationKind, 1
-#GenericDINodeKind, 2
-#DISubrangeKind, 3
-#DIEnumeratorKind, 4
-#DIBasicTypeKind, 5
-"5" = "DIType",
-#DIDerivedTypeKind, 6
-"6" = "DIType",
-#DICompositeTypeKind, 7
-#DISubroutineTypeKind, 8
-"8" = "DISubroutineType",
-#DIFileKind, 9
-#DICompileUnitKind, 10
-"10" = "DICompileUnit",
-#DISubprogramKind, 11
-"11" = "DISubprogram"
-#DILexicalBlockKind, 12
-#DILexicalBlockFileKind, 13
-#DINamespaceKind, 14
-#DIModuleKind, 15
-#DITemplateTypeParameterKind, 16
-#DITemplateValueParameterKind, 17
-#DIGlobalVariableKind, 18
-#DILocalVariableKind, 19
-)
+MetadataKindClass=as.list(rep(NA, times=length(MetadataKind)))
+
+MetadataKindClass[[DIBasicTypeKind]]="DIType"
+MetadataKindClass[[DIDerivedTypeKind]]="DIType"
+MetadataKindClass[[DICompositeTypeKind]]="DIType"
+MetadataKindClass[[DISubroutineTypeKind]]="DISubroutineType"
+MetadataKindClass[[DICompileUnitKind]]="DICompileUnit"
+MetadataKindClass[[DISubprogramKind]]="DISubprogram"
+MetadataKindClass[[MDTupleKind]]="MDNode"
+
 
 coerceGenericMetadata =
 function(ins)
 {
+    #browser()
   	if(is.list(ins))
     	return(lapply(ins, coerceGenericMetadata))
 
     if (is.null(ins)) return(ins)
 
   	type = getMetadataKind(ins)
-  	k = MetadataKindClass[[ as.character(type) ]]
-  	if(is.null(k)) {
+    if (type == 0) return(ins)
+  	k = MetadataKindClass[[type]]
+  	if(is.na(k)) {
 		return(ins)
   	}
   
   	as(ins, k)
 }
+
