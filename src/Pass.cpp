@@ -100,7 +100,7 @@ R_CREATE_FUNPASS(createCodeGenPreparePass)
 R_CREATE_FUNPASS(createInstructionSimplifierPass)
 R_CREATE_FUNPASS(createSinkingPass)
 
-R_CREATE_PASS(createAlwaysInlinerPass)
+R_CREATE_PASS(createAlwaysInlinerLegacyPass)
 R_CREATE_PASS(createStripDeadDebugInfoPass)
 
 R_CREATE_PASS(createLoopDeletionPass)

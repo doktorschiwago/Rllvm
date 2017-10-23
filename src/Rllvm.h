@@ -34,6 +34,8 @@
 #if LLVM_VERSION >= 4
 #include <llvm/IR/PassManager.h>
 #include <llvm/IR/LegacyPassManager.h>
+#include <llvm/Transforms/IPO.h>
+#include <llvm/Transforms/IPO/AlwaysInliner.h>
 #elif (LLVM_VERSION ==3 && LLVM_MINOR_VERSION >= 7) 
 //#include <llvm/IR/PassManager.h>
 #include <llvm/IR/LegacyPassManager.h>

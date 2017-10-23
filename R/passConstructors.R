@@ -104,7 +104,7 @@ function()
 
 createAlwaysInlinerPass =
 function()
-   .Call('R_createAlwaysInlinerPass')
+   .Call('R_createAlwaysInlinerLegacyPass')
 
 
 createStripDeadDebugInfoPass =
