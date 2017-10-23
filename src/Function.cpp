@@ -545,18 +545,26 @@ extern "C"
 SEXP
 R_Function_postdominates(SEXP r_func, SEXP r_block1, SEXP r_block2)
 {
-    llvm::Function *func = GET_REF(r_func, Function);
+    llvm::Function *func = GET_REF(r_func, Function);    
 
-    llvm::PostDominatorTree* DT=new llvm::PostDominatorTree();
+    llvm::legacy::FunctionPassManager mgr(func->getParent());
 
+    llvm::PostDominatorTreeWrapperPass* DTW=new llvm::PostDominatorTreeWrapperPass();
 
-    DT->runOnFunction(*func);
+    mgr.add(DTW);
 
+    mgr.run(*func);
 
-    llvm::BasicBlock *block1 = GET_REF(r_block1, BasicBlock);
-    llvm::BasicBlock *block2 = GET_REF(r_block2, BasicBlock);
+    DTW->runOnFunction(*func);
 
-    bool res=DT->dominates(block1, block2);
+    const llvm::PostDominatorTree &DT=DTW->getPostDomTree();
+
+    llvm::BasicBlock *ins1 = GET_REF(r_block1, BasicBlock);
+    llvm::BasicBlock *ins2 = GET_REF(r_block2, BasicBlock);
+
+    //DT.verify();
+
+    bool res=DT.dominates(ins1, ins2);
 
 
     return(ScalarLogical(res));
