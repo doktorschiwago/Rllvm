@@ -174,11 +174,11 @@ extern "C"
 SEXP
 R_MDNode_getOperands(SEXP r_node)
 {
-#if (LLVM_VERSION >= 4) 
+/*#if (LLVM_VERSION >= 4) 
   PROBLEM "not working with LLVM4.0 yet"
      ERROR;
   return(R_NilValue);
-#else
+#else*/
     llvm::MDNode *node = GET_REF(r_node, MDNode);
     unsigned int numEls = node->getNumOperands();
     SEXP ans, names;
@@ -197,7 +197,7 @@ R_MDNode_getOperands(SEXP r_node)
     SET_NAMES(ans, names);
     UNPROTECT(2);
     return(ans);
-#endif
+/*#endif*/
 }
 
 
