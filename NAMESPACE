@@ -56,7 +56,7 @@ export(functionType)
 #  ConstantPointerNull,
 #  FunctionPass,
 
-exportMethods("$", "names", "names<-", "run", "setName", "getName", "$",
+exportMethods("$", "names", "run", "setName", "getName", "$",
                createIntegerConstant, coerce)
 
 export(
@@ -554,4 +554,5 @@ export(postdominates)
 export(deleteModule)
 export(getSubprogram)
 export(stripDebug)
+
 

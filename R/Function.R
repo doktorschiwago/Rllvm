@@ -17,7 +17,8 @@ function(name, retType, paramTypes = list(), module = Module(), varArgs = FALSE,
      lapply(which(isStruct), function(i) setParamAttributes(fun[[i]], FuncAttributes["ByVal"])) #??? Why a func attribute on a parameter?
   
   if(length(names(paramTypes)))
-     names(fun) = names(paramTypes)
+     .Call("R_setFunctionParamNames", fun, names(paramTypes))
+     #names(fun) = names(paramTypes)
 
   attrs = list(...)
   
@@ -60,28 +61,28 @@ function(fun)
 
 
 
-setMethod("names", c("Function"),
-           function(x) {
-              .Call("R_getFunctionParamNames", x)
-           })
+#setMethod("names", c("Function"),
+#           function(x) {
+#              .Call("R_getFunctionParamNames", x)
+#           })
 
-setMethod("names<-", c("Function", "character"),
-           function(x, value) {
-                # Temporarily do this directly
-              .Call("R_setFunctionParamNames", x, value)
-              return(x)
+#setMethod("names<-", c("Function", "character"),
+#           function(x, value) {
+#                # Temporarily do this directly
+#              .Call("R_setFunctionParamNames", x, value)
+#              return(x)
 
 # the previous way of doing this              
 #              params = getParameters(x)
 #              names(params) = value
 #              x
-           })
+#           })
 
-setMethod("names<-", c("ParameterList", "character"),
-           function(x, value) {
-              mapply(setName, x, value)
-              x
-           })
+#setMethod("names<-", c("ParameterList", "character"),
+#           function(x, value) {
+#              mapply(setName, x, value)
+#              x
+#           })
 
 
 setMethod("setName", "Value",
@@ -98,8 +99,10 @@ function(fun, addNames = TRUE)
 {
    els = .Call("R_getFunctionArgs", fun)
    ans = new("ParameterList", els)
-   if(addNames)
-     names(ans) = lapply(ans, getName) 
+   if(addNames) {
+        #browser()  
+        names(ans@.Data) = lapply(ans, getName) 
+    }
    ans
 }
 

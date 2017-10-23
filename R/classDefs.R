@@ -61,7 +61,8 @@ setClass("BinaryOperator", contains = "Instruction")
 
 setClass("BranchInst", contains = "TerminatorInst")
 
-setClass("ParameterList", representation(names = "character"), contains = "list")
+#see https://stackoverflow.com/questions/23788082/subclassing-s4-class-that-contains-a-list-with-names-access-by-name
+setClass("ParameterList", contains = "list")
 
   # allocates memory on the stack.
 setClass("AllocaInst", contains = "UnaryInstruction")
