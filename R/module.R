@@ -276,3 +276,10 @@ setMethod("setDataLayout", "Module",
           function(x, value,  ...) {
 	   .Call("R_Module_setDataLayout", x, as(value, "character"))
           })
+
+stripDebug =
+function(m)
+{
+   .Call("R_stripDebug", m)
+}
+

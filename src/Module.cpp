@@ -759,3 +759,11 @@ getLLVMGlobalContext()
     return(*gcontext);
 }
 #endif
+
+extern "C"
+SEXP 
+R_stripDebug(SEXP r_mod) {
+    llvm::Module *mod = GET_REF(r_mod, Module);
+    return(ScalarLogical(llvm::StripDebugInfo(*mod)));
+}
+

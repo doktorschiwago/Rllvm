@@ -551,4 +551,5 @@ export(postdominates)
 
 export(deleteModule)
 export(getSubprogram)
+export(stripDebug)
 
