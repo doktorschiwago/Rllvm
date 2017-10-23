@@ -35,35 +35,36 @@ R_new_DIBuilder(SEXP r_module)
 
 extern "C"
 SEXP
-R_new_DIBuilder_CU(SEXP r_dibuilder, SEXP r_filename, SEXP r_dir, SEXP r_lang, SEXP r_producer)
+R_new_DIBuilder_CU(SEXP r_dibuilder, SEXP r_difile, SEXP r_lang, SEXP r_producer)
 {
     llvm::DIBuilder *builder;
     builder = GET_REF(r_dibuilder, DIBuilder); 
+    llvm::DIFile *difile;
+    difile = GET_REF(r_difile, DIFile); 
+
     llvm::DICompileUnit* ans;
 
-//XXX???  do these StringRef's copy their contents. R may GC them.
-#if LLVM_VERSION <= 3
     ans = builder->createCompileUnit(INTEGER(r_lang)[0], 
-                                     llvm::StringRef(CHAR(STRING_ELT(r_filename, 0))), 
-                      	             llvm::StringRef(CHAR(STRING_ELT(r_dir, 0))), 
-                                     llvm::StringRef(CHAR(STRING_ELT(r_producer, 0))), 
-                                     0, "", 0);
-#else
- PROBLEM "This doesn't work with LLVM4.0 yet"
-     ERROR;
-#if 0
-    ans = builder->createCompileUnit(INTEGER(r_lang)[0], 
-                                     llvm::DIFile(CHAR(STRING_ELT(r_filename, 0)))
+                                     difile,
                                      llvm::StringRef(CHAR(STRING_ELT(r_producer, 0))),
                                      true, // isOptimized
-                                     llvm::StringRef(CHAR(STRING_ELT(r_flags, 0))),
+                                     "",
                                      0 // run-time version
                                     );
-#endif
-#endif
 
-	 //llvm::DIRef<llvm::DICompileUnit> ans2=ans;
     return(R_createRef(ans, "DICompileUnit"));
+}
+
+extern "C"
+SEXP
+R_new_DIFile(SEXP r_dibuilder, SEXP r_filename, SEXP r_dir)
+{
+    llvm::DIBuilder *builder;
+    builder = GET_REF(r_dibuilder, DIBuilder); 
+    llvm::DIFile* file = builder->createFile(llvm::StringRef(CHAR(STRING_ELT(r_filename, 0))), 
+                                            llvm::StringRef(CHAR(STRING_ELT(r_dir, 0))));
+
+    return(R_createRef(file, "DIFile"));
 }
 
 extern "C"
@@ -80,16 +81,14 @@ R_finalize_DIBuilder(SEXP r_dibuilder)
 
 extern "C"
 SEXP
-R_new_DIBuilder_Function(SEXP r_dibuilder, SEXP r_cu, SEXP r_func, SEXP r_type, SEXP r_lineno)
+R_new_DIBuilder_Function(SEXP r_dibuilder, SEXP r_difile, SEXP r_func, SEXP r_type, SEXP r_lineno)
 {
     llvm::DIBuilder *builder;
     builder = GET_REF(r_dibuilder, DIBuilder); 
 
     llvm::Function *func = GET_REF(r_func, Function); 
 
-    llvm::DICompileUnit *cu;
-    cu = GET_REF(r_cu, DICompileUnit); 
-    llvm::DIFile* Unit = builder->createFile(cu->getFilename(), cu->getDirectory());
+    llvm::DIFile* Unit = GET_REF(r_difile, DIFile);
 
     llvm::DISubroutineType *type;
     type = GET_REF(r_type, DISubroutineType); 

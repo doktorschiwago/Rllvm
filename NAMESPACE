@@ -506,6 +506,8 @@ export(constantInstructionCast)
 # These function names are likely to change.
 export(DIBuilder, finalizeDIBuilder, newDebugCompileUnit, newDebugFunction, newDebugLocalVariable, newDebugBasicType, newDebugFunctionType, newDebugPointerType, debugSetLocation)
 
+export(newDebugFile)
+
 exportClasses(DIBuilder, DICompileUnit, DISubprogram, DIType, DISubroutineType)
 
 export(finalizeEngine)

@@ -11,17 +11,24 @@ function(builder)
 }
 
 newDebugCU = newDebugCompileUnit =
-function(builder, filename, path, lang = DW_LANG_C, producer = "Rllvm") #XXXX get the lang enums correct.
+function(builder, file, lang = DW_LANG_C, producer = "Rllvm") #XXXX get the lang enums correct.
 {
      # lang maps the SourceLanguage enums
   lang = getEnumValue(lang, SourceLanguage, "DW_LANG_")    
-  .Call("R_new_DIBuilder_CU", as(builder, "DIBuilder"), filename, path, as.integer(lang), as.character(producer))
+  .Call("R_new_DIBuilder_CU", as(builder, "DIBuilder"), as(file, "DIFile"), as.integer(lang), as.character(producer))
+}
+
+newDebugFile =
+function(builder, filename, path) #XXXX get the lang enums correct.
+{
+     # lang maps the SourceLanguage enums   
+  .Call("R_new_DIFile", as(builder, "DIBuilder"), as.character(filename), as.character(path))
 }
          
 newDebugFunction = 
-function(builder, cu, func, type, line)
+function(builder, file, func, type, line)
 {
-  .Call("R_new_DIBuilder_Function", as(builder, "DIBuilder"), cu, func, type, line)
+  .Call("R_new_DIBuilder_Function", as(builder, "DIBuilder"), as(file, "DIFile"), func, type, line)
 }
 
 newDebugLocalVariable = 

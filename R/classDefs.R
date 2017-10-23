@@ -118,6 +118,7 @@ setClass("DICompileUnit", contains = "MDNode")
 setClass("DISubprogram", contains = "MDNode")
 setClass("DIType", contains = "MDNode")
 setClass("DISubroutineType", contains = "MDNode")
+setClass("DIFile", contains = "MDNode")
 
 
 
