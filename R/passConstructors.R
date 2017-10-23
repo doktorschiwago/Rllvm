@@ -107,6 +107,4 @@ function()
    .Call('R_createAlwaysInlinerLegacyPass')
 
 
-createStripDeadDebugInfoPass =
-function()
-   .Call('R_createStripDeadDebugInfoPass')
+
