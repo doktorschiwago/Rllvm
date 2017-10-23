@@ -125,7 +125,7 @@ R_PassManager_new(SEXP r_mod, SEXP r_fnMgr)
 {
     if(LOGICAL(r_fnMgr)[0]) {
         llvm::Module *mod = GET_REF(r_mod, Module);
-#if LLVM_VERSION == 3 && LLVM_MINOR_VERSION > 6
+#if (LLVM_VERSION == 3 && LLVM_MINOR_VERSION > 6) || (LLVM_VERSION >= 4)
         llvm::legacy::FunctionPassManager *fm = new llvm::legacy::FunctionPassManager(mod);
 #else
         llvm::FunctionPassManager *fm = new llvm::FunctionPassManager(mod);
