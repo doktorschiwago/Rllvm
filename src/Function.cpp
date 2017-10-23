@@ -467,20 +467,51 @@ public:
 
 extern "C"
 SEXP
-R_Function_clone(SEXP r_func)
+R_Function_clone(SEXP r_func, SEXP r_newName)
 {
     llvm::Function *func = GET_REF(r_func, Function);
 
+    llvm::Module *mod = func->getParent();
+
 	IdentityMapper VMap;
+    llvm::ClonedCodeInfo cci;
 
-  	llvm::Function* duplicateFunction = llvm::CloneFunction(func, VMap,
-                                              /*ModuleLevelChanges=*/false);
-  	func->getParent()->getFunctionList().push_back(duplicateFunction);
+  	//llvm::Function* duplicateFunction = NULL;
+    llvm::Constant* duplicateFunction = mod->getOrInsertFunction(CHAR(STRING_ELT(r_newName, 0)), func->getFunctionType(),
+        func->getAttributes());
 
-    return(R_createRef(duplicateFunction, "Function"));
+    if (! llvm::isa<llvm::Function>(duplicateFunction)) return(R_NilValue);
+
+    llvm::Function* duplicateFunction2=llvm::cast<llvm::Function>(duplicateFunction);
+
+   std::vector<llvm::Type*> ArgTypes;
+   
+     // The user might be deleting arguments to the function by specifying them in
+     // the VMap.  If so, we need to not add the arguments to the arg ty vector
+     //
+     for (const llvm::Argument &I : func->args())
+       if (VMap.count(&I) == 0) // Haven't mapped the argument to anything yet?
+         ArgTypes.push_back(I.getType());
+   
+   
+     // Loop over the arguments, copying the names of the mapped arguments over...
+     llvm::Function::arg_iterator DestI = duplicateFunction2->arg_begin();
+     for (const llvm::Argument & I : func->args())
+       if (VMap.count(&I) == 0) {     // Is this argument preserved?
+         DestI->setName(I.getName()); // Copy the name over...
+         VMap[&I] = &*DestI++;        // Add mapping to VMap
+       }
+   
+     llvm::SmallVector<llvm::ReturnInst*, 8> Returns;  // Ignore returns cloned.
+     llvm::CloneFunctionInto(duplicateFunction2, func, VMap, func->getSubprogram() != nullptr, Returns, "",
+                       &cci);
+    
+    //func->getParent()->getFunctionList().push_back(duplicateFunction);
+
+    return(R_createRef(duplicateFunction2, "Function"));
 }
 
-extern "C"
+extern "C"  
 SEXP
 R_Function_dominates(SEXP r_func, SEXP r_instruction1, SEXP r_instruction2)
 {

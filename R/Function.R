@@ -350,9 +350,9 @@ setMethod("getMetadata", c("Function", "numeric"),
               .Call("R_Function_getMetadata", obj, as.integer(id)))
 
 cloneFunction =
-function(func)
+function(func, newName)
 {
-  .Call("R_Function_clone", as(func, "Function"))
+  .Call("R_Function_clone", as(func, "Function"), as.character(newName))
 }
 
 setCalledFunction =
